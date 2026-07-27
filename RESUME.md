@@ -8,8 +8,8 @@ Education
 
 Work Experiance
 - Uniqlo
-  - Sales Associate
-- Keauhou Bay Adventures
-  - Pool Attendendent
+  - Sales Associate: A customer service and sales focused enviorment 
+- Keauhou Bay Adventures/Outrigger Kailua Kona
+  - Pool Attendendent: A customer service setting, catering to guests and maintaning the cleanliness and order of the pool area. Addionally, managing a shop and the marketing and booking of tours and activites
 
  
