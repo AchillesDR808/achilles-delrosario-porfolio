@@ -34,7 +34,7 @@ BRAND FORMATTING — applied per docs/_branding/design.json (v1.0.0)
   Full brand standard: docs/_branding/design.json · Source: https://manoa.hawaii.edu/brand/
 -->
 
-# [COMPANY NAME] — FX Transaction Hedge Model · Technical Specification
+# [U.S. Solar Equipment Importer] — FX Transaction Hedge Model · Technical Specification
 
 > <span style="color:#024731; font-weight:700;">Technical specification</span> for the FX transaction hedge model — the named-range contract, calculation flow, and validation checks, precise enough that an AI or a colleague could build (or rebuild) the workbook from this document alone. This spec is the input the AI-assisted build works from.
 
