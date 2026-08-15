@@ -15,3 +15,13 @@ Make it specific and quantified, not generic.
 - **Audit prompt:** "Revise the Excel for mistakes and fit the Stage 3 guidelines. Do not commit anything; state what I should fix."
 - **Specific audit findings and revision made by Achilles:** The first workbook lacked a visible call-hedge calculation, contained hard-coded constants within formulas, had an incomplete cover-page data-provenance block, and did not consistently use green text for formulas. I rebuilt it with a dedicated `Call_Calc` tab; named blue assumption cells for day count, sensitivity increment, grid size, and validation tolerances; the completed provenance block; and the required yellow-input, blue-assumption, green-formula, and gray-output convention. The revised workbook displays seven formula-driven validation checks, all returning `OK`.
 - **Final generation prompt:** "Make a new Excel workbook with the audit changes. Do not commit anything."
+
+## FX Hedging Stage 4 - live market data and repopulation (2026-08-14)
+
+- **Data-hunt prompt:** "Help me fill the market-data table with Yahoo Finance as a source, calculate my forward rate, and identify suitable one-year USD and EUR rate sources."
+- **Source selection:** Used Yahoo Finance `EURUSD=X` for `S0_in = 1.1573` USD per EUR (retrieved 2026-08-14 20:42 HST); the U.S. Treasury daily 1-year par yield for `R_USD = 3.98%` (retrieved 2026-08-14 20:58 HST); and the ECB AAA 1-year euro-area spot-rate series for `R_FC = 2.58%` (dated 2026-08-13). `FC_AMT = EUR 4,500,000`, `T_DAYS = 365`, and both option premiums remain scenario inputs.
+- **Calculation prompt:** "Calculate my forward rates using spot 1.1573, USD rate 3.98%, EUR rate 2.58%, and T_DAYS 365."
+- **Calculation used:** Calculated the CIP-implied forward as `F0_in = 1.1573 x (1 + 0.0398 x 365/360) / (1 + 0.0258 x 365/360) = 1.1733` USD per EUR. Set `K_PUT = K_CALL = 1.1573` as at-the-money strikes. The scenario-provided `PREM_PUT` and `PREM_CALL` remain 0.0250 USD per EUR.
+- **Specific review finding and correction:** Yahoo Finance is appropriate for EURUSD spot but not a clean source for matching one-year USD and EUR rates or OTC FX-option premiums. I used the official Treasury and ECB rate sources instead, documented the proxy choices and timestamps, and retained the scenario-given option premiums as required assumptions.
+- **Workbook-generation prompt:** "Create a new workbook with this data."
+- **Result:** Generated the Stage 4 live-data workbook with a Sources tab, named-range input updates, CIP-implied forward, at-the-money strikes, recalculated sensitivity/chart, and seven visible validation checks returning `OK`.
