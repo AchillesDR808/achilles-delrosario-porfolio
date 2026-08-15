@@ -32,7 +32,6 @@ difference under covered interest parity.
 
 
 ## Hand Verification Calculations
-
 ### Inputs
 
 ```text
