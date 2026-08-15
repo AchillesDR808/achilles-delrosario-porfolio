@@ -1,147 +1,224 @@
-Using only the [market-data memo](https://github.com/AchillesDR808/achilles-delrosario-porfolio/blob/main/data/2026-08-14-delrosario-market-data.md) and [hedging-model specification](https://github.com/AchillesDR808/achilles-delrosario-porfolio/blob/main/docs/specs/2026-08-13-del-rosario-solar-importer-spec.md), the forward is the strongest CFO hedge: it locks approximately **$5.280 million**, uses no modeled upfront premium, and is effectively identical to the money-market hedge.
 
------ 
+# CFO Recommendation Memo
 
-## Inputs and assumptions
+**To:** Chief Financial Officer  
+**From:** Treasury Analyst  
+**Subject:** Hedge recommendation for the €4.5 million receivable  
+**Settlement date:** August 13, 2027  
+**Recommendation:** Hedge the full receivable with a one-year forward contract
 
-- Receivable \(Q = €4{,}500{,}000\)
-- Live spot \(S_0 = 1.1573\) USD/EUR
-- Lower settlement spot \(S_L = 0.95S_0 = 1.099435\)
-- Higher settlement spot \(S_H = 1.05S_0 = 1.215165\)
-- One-year forward \(F_0 = 1.1733\)
-- USD rate \(r_{USD}=3.98\%\)
-- EUR rate \(r_{EUR}=2.58\%\)
-- Time fraction \(t=365/360=1.0138889\)
-- Put strike \(K_P=1.1473\)
-- Call strike \(K_C=1.1673\)
-- Put and call premiums: \(p_P=p_C=0.0250\) USD/EUR, or **$112,500** for the full notional
+This recommendation uses only the updated FX hedging model specification and market-data memo.
 
-As directed by the specification, rates use simple interest and ACT/360. All hedges cover the entire receivable and are held to settlement. Bid-ask spreads, transaction costs, taxes, credit risk, collateral, hedge accounting, and premium financing are excluded. Option premiums are deducted without financing.
+## A. Exposure summary
 
-“Live spot” below means the memo’s \(1.1573\) rate used as the settlement scenario—not a newly retrieved market quote.
+The company expects to receive **€4,500,000 in 365 days** and reports its results in U.S. dollars. Because the euro amount is fixed while the future EUR/USD exchange rate is unknown, the USD value of the receivable remains exposed to currency movements until settlement.
 
-## Formulas
-
-Unhedged:
+The current reference spot rate is **1.1573 USD/EUR**, giving the receivable a current translated value of:
 
 \[
-USD_{UNH}(S_T)=Q S_T
+€4{,}500{,}000 \times 1.1573
+=\$5{,}207{,}850
 \]
 
-Forward:
+The primary financial risk is euro depreciation. If EUR/USD declines, each euro received will purchase fewer dollars, reducing the cash available for budgets, margins, and operating commitments. A stronger euro would increase USD proceeds, but retaining that upside requires the company to accept some combination of exchange-rate risk or option-premium cost.
 
-\[
-USD_{FWD}=QF_0
-\]
+Three settlement scenarios were evaluated:
 
-Money-market hedge:
+- Lower spot: \(1.099435\), or 5% below the live spot
+- Live spot: \(1.157300\)
+- Higher spot: \(1.215165\), or 5% above the live spot
 
-\[
-EUR_{BORROW}=\frac{Q}{1+r_{EUR}t}
-\]
+The analysis compares remaining unhedged with a forward, a money-market hedge, a purchased EUR put, and a hypothetical purchased EUR call.
 
-\[
-USD_{NOW}=EUR_{BORROW}S_0
-\]
+## B. Hedge outcomes
 
-\[
-USD_{MM}=USD_{NOW}(1+r_{USD}t)
-\]
+### Summary of settlement proceeds
 
-\[
-F_{IMPLIED}=S_0\frac{1+r_{USD}t}{1+r_{EUR}t}
-\]
-
-Long EUR put:
-
-\[
-USD_{PUT}(S_T)=Q\max(S_T,K_P)-Qp_P
-\]
-
-The specification explicitly says the call inputs are unused for this EUR receivable. To satisfy the requested comparison, I calculate a hypothetical **long EUR call held alongside the receivable**:
-
-\[
-USD_{CALL}(S_T)
-=QS_T+Q\max(S_T-K_C,0)-Qp_C
-\]
-
-This is not a conventional hedge for a EUR receivable: it increases EUR upside exposure and provides no downside floor.
-
-## Money-market calculation
-
-\[
-EUR_{BORROW}
-=\frac{4{,}500{,}000}
- {1+0.0258(365/360)}
-=€4{,}385{,}288.17
-\]
-
-\[
-USD_{NOW}
-=4{,}385{,}288.17(1.1573)
-=\$5{,}075{,}094.00
-\]
-
-\[
-USD_{MM}
-=5{,}075{,}094.00
- [1+0.0398(365/360)]
-=\$5{,}279{,}888.14
-\]
-
-The implied forward is:
-
-\[
-F_{IMPLIED}
-=1.1573
-\frac{1+0.0398(365/360)}
-     {1+0.0258(365/360)}
-=1.1733085
-\]
-
-This differs from the quoted forward by only \(0.0000085\) USD/EUR. Money-market proceeds exceed forward proceeds by just **$38**, so covered-interest parity holds within the specification’s tolerance.
-
-## Settlement outcomes
-
-Rounded to the nearest dollar:
-
-| Strategy | Lower: 1.099435 | Live: 1.157300 | Higher: 1.215165 |
+| Strategy | Lower spot | Live spot | Higher spot |
 |---|---:|---:|---:|
 | Unhedged | $4,947,458 | $5,207,850 | $5,468,243 |
 | Forward | **$5,279,850** | **$5,279,850** | $5,279,850 |
 | Money market | **$5,279,888** | **$5,279,888** | $5,279,888 |
-| Long put | $5,050,350 | $5,095,350 | **$5,355,743** |
-| Hypothetical long call | $4,834,958 | $5,095,350 | $5,571,135 |
+| Purchased put | $5,095,350 | $5,095,350 | **$5,355,743** |
+| Hypothetical purchased call | $4,834,958 | $5,095,350 | $5,616,135 |
 
-### Interpretation
+### Unhedged baseline
 
-- **Lower spot:** The forward and money-market hedges produce about **$332,400 more** than remaining unhedged. The put limits the decline, but its net floor is only **$5,050,350**.
-- **Live spot:** The forward produces **$72,000 more** than the unhedged receivable and **$184,500 more** than the put.
-- **Higher spot:** The unhedged position and put outperform the forward. The put delivers **$75,893 more** than the forward while preserving most of the favorable currency movement.
-- **Call:** Its high-spot result is largest because it doubles exposure to EUR appreciation above the strike. That is speculative leverage, not downside protection. At lower and live spots, the call merely reduces proceeds by its $112,500 premium.
+Remaining unhedged preserves all potential benefit from euro appreciation but also leaves the entire receivable exposed to depreciation.
 
-The put’s net proceeds exceed the forward only when:
+At the lower settlement spot, USD proceeds decline to approximately **$4.947 million**, which is:
 
-\[
-S_T-p_P>F_0
-\]
+- **$260,393 below** the current translated value;
+- **$332,393 below** the forward outcome; and
+- **$147,893 below** the protected put outcome.
 
-\[
-S_T>1.1733+0.0250=\boxed{1.1983}
-\]
+At the higher spot, unhedged proceeds increase to approximately **$5.468 million**, exceeding forward proceeds by **$188,393**. That upside comes at the cost of having no minimum USD proceeds other than whatever the settlement exchange rate produces.
 
-Thus, the euro must finish more than approximately **3.54% above the live spot** before the put outperforms the forward.
+Because this receivable may support budgeted expenditures and operating commitments, remaining fully unhedged is inconsistent with a treasury objective centered on cash-flow stability.
 
-## CFO recommendation
+### Forward hedge
 
-Adopt the **full-notional forward hedge**, subject to confirming an executable dealer quote.
-
-It provides approximately **$5.280 million of certain settlement proceeds**, exceeds both the unhedged and put outcomes at the lower and live scenarios, and avoids the put’s **$112,500 upfront premium**. The money-market hedge is economically equivalent, but it requires borrowing EUR, converting immediately, investing USD, and using financing capacity for only about **$38** of modeled improvement.
-
-Choose the put instead only if management deliberately values upside participation above \(1.1983\) USD/EUR and accepts a net guaranteed floor approximately **$229,500 below** the forward:
+The one-year forward rate is **1.1733 USD/EUR**, producing fixed settlement proceeds of:
 
 \[
-\$5{,}279{,}850-\$5{,}050{,}350=\$229{,}500
+€4{,}500{,}000 \times 1.1733
+=\boxed{\$5{,}279{,}850}
 \]
 
-Do not use the long call as the receivable hedge; it fails to protect the company against the identified risk—a weaker euro.
+The forward produces the same proceeds under every settlement scenario. It eliminates both downside risk and upside participation.
+
+The quoted forward is also above the live spot. As a result, the company locks proceeds **$72,000 higher** than the receivable’s current spot-translated value:
+
+\[
+\$5{,}279{,}850-\$5{,}207{,}850
+=\$72{,}000
+\]
+
+In the lower scenario, the forward protects **$332,393** relative to remaining unhedged. In the higher scenario, however, the company gives up **$188,393** of potential unhedged upside.
+
+The forward therefore offers the clearest budget certainty without the explicit upfront premium associated with the put.
+
+### Money-market hedge
+
+The money-market hedge requires the company to:
+
+1. Borrow the present value of the €4.5 million receivable;
+2. Convert the borrowed euros to dollars at the live spot;
+3. Invest the dollars for 365 days; and
+4. Use the eventual receivable to repay the EUR borrowing.
+
+The required EUR borrowing is:
+
+\[
+\frac{€4{,}500{,}000}
+{1+0.0258(365/360)}
+=€4{,}385{,}288.17
+\]
+
+After conversion and USD investment, settlement proceeds are:
+
+\[
+\boxed{\$5{,}279{,}888}
+\]
+
+This is only about **$38 more** than the forward. Economically, the two strategies provide essentially the same degree of protection and nearly identical proceeds.
+
+The money-market hedge is less attractive operationally because it requires immediate borrowing, conversion, investment, and use of credit capacity. The $38 modeled advantage is immaterial relative to the €4.5 million exposure and does not compensate for the added liquidity and administrative requirements.
+
+### Purchased EUR put
+
+The put has a strike of **1.1573 USD/EUR** and costs **0.0250 USD/EUR**, resulting in a total premium of:
+
+\[
+€4{,}500{,}000 \times 0.0250
+=\$112{,}500
+\]
+
+The net protected proceeds are:
+
+\[
+€4{,}500{,}000(1.1573-0.0250)
+=\boxed{\$5{,}095{,}350}
+\]
+
+This floor applies whenever settlement spot is at or below the strike. If the euro appreciates above the strike, the company lets the put expire and converts the receivable at the favorable market rate, less the premium.
+
+The put therefore combines downside protection with upside participation, but its guaranteed proceeds are **$184,500 below** the forward:
+
+\[
+\$5{,}279{,}850-\$5{,}095{,}350
+=\$184{,}500
+\]
+
+At the higher settlement spot, the put produces approximately **$5.356 million**, exceeding the forward by **$75,893**. The put does not outperform the forward after premium unless EUR/USD exceeds:
+
+\[
+1.1733+0.0250=\boxed{1.1983}
+\]
+
+This break-even rate is approximately **3.54% above** the live spot. Management would therefore be paying $112,500 for upside participation that becomes financially superior to the forward only after a meaningful appreciation of the euro.
+
+### Call option
+
+The specification retains a call strike and premium as shared inputs but explicitly states that they are unused for this EUR receivable. A purchased EUR call would not address the company’s principal risk.
+
+When held alongside the receivable, a call provides additional gains if the euro appreciates but no protection if it depreciates. At the lower and live settlement spots, it reduces proceeds by the $112,500 premium. At the higher spot, it produces the largest modeled result because the company benefits from both the appreciating receivable and the call payoff.
+
+That outcome represents increased EUR exposure rather than hedging. The purchased call should therefore be excluded from the practical hedge alternatives.
+
+## C. Sensitivity interpretation
+
+The five alternatives present distinct tradeoffs among certainty, flexibility, liquidity, and cost.
+
+Under euro depreciation, the forward and money-market hedge provide the strongest protection, holding proceeds near **$5.280 million**. The put provides partial protection through a **$5.095 million net floor**, while the unhedged position and purchased call remain exposed to falling EUR/USD.
+
+Under euro appreciation, the unhedged position participates fully. The put also participates, but its proceeds remain $112,500 below the unhedged result because of the premium. The forward and money-market outcomes remain fixed and therefore sacrifice favorable currency gains.
+
+The decision is consequently not based solely on which strategy has the highest result in one scenario. It depends on the CFO’s priority:
+
+- **Certainty:** Forward or money-market hedge
+- **Upside flexibility with a protected floor:** Purchased put
+- **Maximum upside with full downside exposure:** Unhedged
+- **Additional speculative EUR exposure:** Purchased call
+
+For a known corporate receivable supporting budgets and operating commitments, certainty should generally carry more weight than attempting to profit from exchange-rate movements.
+
+## D. Recommendation
+
+I recommend hedging the **full €4.5 million receivable with the one-year forward at 1.1733 USD/EUR**, subject to confirming that the rate is executable with an approved counterparty.
+
+The forward locks:
+
+\[
+\boxed{\$5{,}279{,}850}
+\]
+
+This strategy is preferred because it:
+
+- Eliminates uncertainty in the receivable’s USD value;
+- Protects $332,393 relative to remaining unhedged in the lower scenario;
+- Locks $72,000 more than the current spot-translated value;
+- Avoids the put’s $112,500 upfront premium;
+- Does not require the borrowing and investment transactions of the money-market hedge; and
+- Directly addresses the identified risk of euro depreciation.
+
+The principal cost is the loss of potential appreciation. At the higher scenario, the forward produces $188,393 less than remaining unhedged and $75,893 less than the put. That opportunity cost should be viewed as the price of eliminating an uncertain FX outcome, rather than as a cash premium.
+
+If management has a strong, documented preference for retaining currency upside, the put would be the appropriate alternative. However, that choice would lower guaranteed proceeds by $184,500 relative to the forward and require EUR/USD to exceed 1.1983 before producing a superior net outcome.
+
+## E. Executive justification
+
+### Cash-flow stability
+
+The forward converts an uncertain foreign-currency receivable into a known **$5.280 million settlement cash flow**. This allows management to plan spending, working capital, and operating commitments without depending on the future exchange rate.
+
+### Budget certainty
+
+The forward provides the clearest basis for budgeting because its outcome does not vary with settlement spot. The unhedged and option strategies leave some or all of the USD proceeds dependent on market conditions.
+
+### Liquidity
+
+The forward has no modeled upfront premium and does not require the immediate borrowing and investment transactions needed for the money-market hedge. This preserves cash and financing capacity during the hedge period.
+
+### Optionality
+
+The put offers economically valuable upside participation, but that flexibility is not free. Its net floor is $184,500 below the forward, and the euro must appreciate above 1.1983 before the put becomes the better financial result.
+
+The call does not provide useful optionality for this exposure because the company already owns the economic equivalent of a long EUR position through its receivable. Purchasing another EUR call adds to that position instead of protecting it.
+
+### Premium cost
+
+The put premium is **$112,500**, equal to:
+
+\[
+\frac{\$112{,}500}{\$5{,}207{,}850}
+\approx 2.16\%
+\]
+
+of the receivable’s live spot-translated value. Unless management has a strong view that EUR/USD will rise materially above 1.1983, this is a substantial cost for upside participation.
+
+## Final decision
+
+The forward provides the best alignment with the company’s treasury objective: protecting the USD value of a known EUR receivable. It delivers strong downside protection, fixed budgetable proceeds, limited liquidity impact, and less operational complexity than the money-market hedge.
+
+Accordingly, the company should **execute a full-notional one-year forward for €4.5 million at 1.1733 USD/EUR**, after confirming the dealer rate, counterparty approval, and settlement terms.
