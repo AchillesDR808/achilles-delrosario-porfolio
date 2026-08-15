@@ -37,3 +37,16 @@ Hand Verification Calculations
 USD_FWD = FC_AMT x F0_in
         = 4,500,000 x 1.1733
         = $5,279,850
+
+- Money Market Hedge
+FC_BORROW = FC_AMT / [1 + R_FC x (T_DAYS / 360)]
+          = 4,500,000 / [1 + 0.0258 x (365 / 360)]
+          = 4,500,000 / 1.0261583
+          = EUR 4,385,288.17
+USD_NOW = FC_BORROW x S0_in
+        = 4,385,288.17 x 1.1573
+        = $5,075,094.00
+USD_MM = USD_NOW x [1 + R_USD x (T_DAYS / 360)]
+       = 5,075,094.00 x [1 + 0.0398 x (365 / 360)]
+       = 5,075,094.00 x 1.0403528
+       = $5,279,888.14
