@@ -33,24 +33,36 @@ difference under covered interest parity.
 
 Hand Verification Calculations
 
-- Forward Proceeds
+Forward Proceeds
 
-USD_FWD = FC_AMT x F0_in
+- USD_FWD = FC_AMT x F0_in
         = 4,500,000 x 1.1733
         = $5,279,850
 
-- Money Market Hedge
+Money Market Hedge
 
-FC_BORROW = FC_AMT / [1 + R_FC x (T_DAYS / 360)]
+- FC_BORROW = FC_AMT / [1 + R_FC x (T_DAYS / 360)]
           = 4,500,000 / [1 + 0.0258 x (365 / 360)]
           = 4,500,000 / 1.0261583
           = EUR 4,385,288.17
 
-USD_NOW = FC_BORROW x S0_in
+- USD_NOW = FC_BORROW x S0_in
         = 4,385,288.17 x 1.1573
         = $5,075,094.00
 
-USD_MM = USD_NOW x [1 + R_USD x (T_DAYS / 360)]
+- USD_MM = USD_NOW x [1 + R_USD x (T_DAYS / 360)]
        = 5,075,094.00 x [1 + 0.0398 x (365 / 360)]
        = 5,075,094.00 x 1.0403528
        = $5,279,888.14
+
+Put outcome at the lower settlement spot
+
+- S_T = 0.95 x S0_in
+    = 0.95 x 1.1573
+    = 1.099435
+
+- USD_PUT = FC_AMT x MAX(S_T, K_PUT) - FC_AMT x PREM_PUT
+        = 4,500,000 x MAX(1.099435, 1.1573) - 4,500,000 x 0.0250
+        = 4,500,000 x 1.1573 - 112,500
+        = 5,207,850 - 112,500
+        = $5,095,350
