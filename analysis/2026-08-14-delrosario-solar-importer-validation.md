@@ -32,7 +32,7 @@ difference under covered interest parity.
 
 
 Hand Verification Calculations
-
+(These hand calculations reconcile to the workbook, subject only to the documented $38 forward-rounding difference.)
 Forward Proceeds
 
 - USD_FWD = FC_AMT x F0_in
