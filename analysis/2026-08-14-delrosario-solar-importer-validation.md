@@ -31,7 +31,7 @@ precision from spot and interest-rate inputs. This is not an economic
 difference under covered interest parity.
 
 
-Hand Verification Calculations
+## Hand Verification Calculations
 (These hand calculations reconcile to the workbook, subject only to the documented $38 forward-rounding difference.)
 
 Forward Proceeds
