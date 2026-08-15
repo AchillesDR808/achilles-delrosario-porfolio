@@ -21,7 +21,7 @@ Validation and Reconciliation
 | Put | 1.215165 | $5,355,743 | $5,355,743 | $0 | Matches |
 | Call | 1.215165 | N/A | N/A | — | Not a receivable hedge under the specification |
 
-Discrepencies
+Discrepancies
 — Forward versus money-market difference
 
 The forward result is $5,279,850, while the money-market result is
@@ -31,15 +31,9 @@ precision from spot and interest-rate inputs. This is not an economic
 difference under covered interest parity.
 
 
-## Hand Verification Calculations
-### Inputs
+Hand Verification Calculations
 
-```text
-FC_AMT = EUR 4,500,000
-S0_in = 1.1573 USD/EUR
-R_USD = 0.0398
-R_FC = 0.0258
-T_DAYS / 360 = 365 / 360 = 1.0138889
-F0_in = 1.1733 USD/EUR
-K_PUT = 1.1573 USD/EUR
-PREM_PUT = 0.0250 USD/EUR
+- Forward Proceeds
+USD_FWD = FC_AMT x F0_in
+        = 4,500,000 x 1.1733
+        = $5,279,850
