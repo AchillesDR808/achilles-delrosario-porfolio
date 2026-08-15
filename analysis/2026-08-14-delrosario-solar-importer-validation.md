@@ -67,3 +67,10 @@ Put outcome at the lower settlement spot
         = 4,500,000 x 1.1573 - 112,500
         = 5,207,850 - 112,500
         = $5,095,350
+
+
+## Retrospective
+
+The LLM at times would assume data and or create educated hypotheticals when it came inputs it viewed as missing, such as the K_CALL and PERM_CALL. The forward and Money market results were slightly off do too the use of differing decimal accuracy. Date inconsistencies were also found. 
+
+Overall, the the Codex LLM shows great potential in Market Hedging and analysis but time and consistency are needed to truly hone and train the LLM to capitalize on the benefits and innovation it can offer. 
